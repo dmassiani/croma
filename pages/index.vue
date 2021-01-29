@@ -214,11 +214,11 @@
       <div class="mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left">
         <div class="px-4 lg:w-1/2 sm:px-8 xl:pr-16">
           <h1 class="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
-            <span class="block xl:inline">Data to enrich your</span>
-            <span class="block xl:inline">online business</span>
+            <span class="block xl:inline">Easily generate your</span>
+            <span class="block xl:inline">color scheme</span>
           </h1>
           <p class="mt-3 max-w-md mx-auto text-lg sm:text-xl md:mt-5 md:max-w-3xl">
-            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.
+            Use spacebar for generate a new scheme. You can order colors. First color is primary and used by text color (dark), second color is secondary and used for background color (very light).
           </p>
           <div class="mt-10 sm:flex sm:justify-center lg:justify-start">
             <div class="rounded-md shadow">
