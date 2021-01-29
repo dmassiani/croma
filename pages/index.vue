@@ -3,14 +3,11 @@
   <div class="bg relative bg-gray-50" :style="getColorsBG(4)">
 
     <div class="container py-4">
-
-      <draggable @change="changeColors" class="grid grid-cols-5 gap-4" v-model="historique[current].colors" group="people" @start="drag=true" @end="drag=false">
-        <div v-for="(element,i) in historique[current].colors" :key="i">
-          <div :style="getColorsBG(i)" class="bg rounded-lg w-full h-20">
-          </div>
+      <draggable @change="changeColors" class="grid grid-cols-5 gap-4" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
+        <div v-for="(element,i) in currentColors" :key="i">
+          <verte v-model="currentColors[i]" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20"></verte>
         </div>
       </draggable>
-
     </div>
 
     <div class="relative bg-transparent">
@@ -537,6 +534,7 @@ import draggable from 'vuedraggable'
 export default {
   data() {
     return {
+      currentColors: [],
       primaryColors: {
         color: '',
         text: ''
@@ -580,7 +578,7 @@ export default {
   computed: {
     primaryColorsBG() {
       return {
-        '--bg-color': `#${this.primaryColors.color}`,
+        '--bg-color': `${this.primaryColors.color}`,
         '--text-color': `${this.primaryColors.text}`
       }
     },
@@ -597,40 +595,39 @@ export default {
     },
     secondaryColorsBG() {
       return {
-        '--bg-color': `#${this.secondaryColors.color}`,
+        '--bg-color': `${this.secondaryColors.color}`,
         '--text-color': `${this.secondaryColors.text}`
       }
     },
     secondaryColorsText() {
       return {
-        '--text-color': `#${this.secondaryColors.color}`
+        '--text-color': `${this.secondaryColors.color}`
       }
     },
     alphaColorsBG() {
       return {
-        '--bg-color': `#${this.alphaColors.color}`,
+        '--bg-color': `${this.alphaColors.color}`,
         '--text-color': `${this.alphaColors.text}`
       }
     },
     betaColorsBG() {
       return {
-        '--bg-color': `#${this.betaColors.color}`,
+        '--bg-color': `${this.betaColors.color}`,
         '--text-color': `${this.betaColors.text}`
       }
     },
     gammaColorsBG() {
       return {
-        '--bg-color': `#${this.gammaColors.color}`,
+        '--bg-color': `${this.gammaColors.color}`,
         '--text-color': `${this.gammaColors.text}`
       }
     },
   },
   methods: {
     getColorsBG(index) {
-      console.log(index, this.historique, this.current);
       return {
-        '--bg-color': `#${this.historique[this.current].colors[index]}`,
-        '--text-color': '#' + contrastColor({ bgColor: this.historique[this.current].colors[index] })
+        '--bg-color': `${this.currentColors[index]}`,
+        '--text-color': contrastColor({ bgColor: this.currentColors[index] })
       }
     },
     async chooseColors() {
@@ -641,22 +638,35 @@ export default {
         console.log(e);
       } finally {
 
-        this.primaryColors.color = colors[0].colors[0]
-        this.primaryColors.text = contrastColor({ bgColor: colors[0].colors[0] });
+        // console.log(colors[0]);
+        //
 
-        this.secondaryColors.color = colors[0].colors[1]
-        this.secondaryColors.text = contrastColor({ bgColor: colors[0].colors[1] });
+        this.currentColors = colors[0].colors
+        if(this.currentColors[0].length == 6){
+          this.currentColors[0] = '#' + this.currentColors[0]
+          this.currentColors[1] = '#' + this.currentColors[1]
+          this.currentColors[2] = '#' + this.currentColors[2]
+          this.currentColors[3] = '#' + this.currentColors[3]
+          this.currentColors[4] = '#' + this.currentColors[4]
+        }
+        console.log(this.currentColors);
 
-        this.alphaColors.color = colors[0].colors[2]
-        this.alphaColors.text = contrastColor({ bgColor: colors[0].colors[2] });
+        this.primaryColors.color = this.currentColors[0]
+        this.primaryColors.text = contrastColor({ bgColor: this.currentColors[0] });
 
-        this.betaColors.color = colors[0].colors[3]
-        this.betaColors.text = contrastColor({ bgColor: colors[0].colors[3] });
+        this.secondaryColors.color = this.currentColors[1]
+        this.secondaryColors.text = contrastColor({ bgColor: this.currentColors[1] });
 
-        this.gammaColors.color = colors[0].colors[4]
-        this.gammaColors.text = contrastColor({ bgColor: colors[0].colors[4] });
+        this.alphaColors.color = this.currentColors[2]
+        this.alphaColors.text = contrastColor({ bgColor: this.currentColors[2] });
 
-        this.historique.push(colors[0])
+        this.betaColors.color = this.currentColors[3]
+        this.betaColors.text = contrastColor({ bgColor: this.currentColors[3] });
+
+        this.gammaColors.color = this.currentColors[4]
+        this.gammaColors.text = contrastColor({ bgColor: this.currentColors[4] });
+
+        this.historique.push(this.currentColors)
         this.current++
 
       }
@@ -664,20 +674,21 @@ export default {
     changeColors(e) {
       // console.log(e, this.historique[this.current]);
 
-      this.primaryColors.color = this.historique[this.current].colors[0]
-      this.primaryColors.text = contrastColor({ bgColor: this.historique[this.current].colors[0] });
+      this.primaryColors.color = this.currentColors[0]
+      this.primaryColors.text = contrastColor({ bgColor: this.currentColors[0] });
 
-      this.secondaryColors.color = this.historique[this.current].colors[1]
-      this.secondaryColors.text = contrastColor({ bgColor: this.historique[this.current].colors[1] });
+      this.secondaryColors.color = this.currentColors[1]
+      this.secondaryColors.text = contrastColor({ bgColor: this.currentColors[1] });
 
-      this.alphaColors.color = this.historique[this.current].colors[2]
-      this.alphaColors.text = contrastColor({ bgColor: this.historique[this.current].colors[2] });
+      this.alphaColors.color = this.currentColors[2]
+      this.alphaColors.text = contrastColor({ bgColor: this.currentColors[2] });
 
-      this.betaColors.color = this.historique[this.current].colors[3]
-      this.betaColors.text = contrastColor({ bgColor: this.historique[this.current].colors[3] });
+      this.betaColors.color = this.currentColors[3]
+      this.betaColors.text = contrastColor({ bgColor: this.currentColors[3] });
 
-      this.gammaColors.color = this.historique[this.current].colors[4]
-      this.gammaColors.text = contrastColor({ bgColor: this.historique[this.current].colors[4] });
+      this.gammaColors.color = this.currentColors[4]
+      this.gammaColors.text = contrastColor({ bgColor: this.currentColors[4] });
+
     },
   	doCommand(e) {
   		let cmd = String.fromCharCode(e.keyCode).toLowerCase();
@@ -691,6 +702,14 @@ export default {
 </script>
 
 <style>
+.verte__guide{
+  width: 100%;
+  height: 5rem;
+  border-radius: 0.5rem;
+}
+.verte__icon{
+  display: none;
+}
 .testcolors {
   color: var(--text-color);
   background-color: var(--bg-color);
