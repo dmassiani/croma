@@ -226,25 +226,20 @@
                 Get started
               </a>
             </div>
-            <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-              <a :style="secondaryColorsBG" href="#" class="bg text w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
-                Live demo
-              </a>
-            </div>
           </div>
         </div>
       </div>
       <div class="relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full overflow-hidden">
         <!-- <img class="absolute inset-0 w-full h-full object-cover" src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80" alt=""> -->
         <div class="absolute -right-20 top-10">
-          <div class="circle bg-black rounded-full w-96 h-96" :style="primaryColorsBG"></div>
+          <div class="circle bg-black rounded-full w-96 h-96" :style="secondaryColorsBG"></div>
         </div>
       </div>
     </main>
 
     <div class="container py-12">
       <section class="">
-        <div class="bg rounded-lg p-24 bg-black text-white" :style="primaryColorsBG">
+        <div class="bg rounded-lg p-24 bg-black text-white" :style="secondaryColorsBG">
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
       </section>
@@ -655,12 +650,12 @@ export default {
       let variants = cyanea(this.currentColors[0]);
       let totalVariants = variants.desaturated.variants.length
       this.textColor = variants.desaturated.variants[totalVariants - 7].hex
-      return variants.desaturated.variants[totalVariants - 7].hex
+      return this.textColor
     },
     defineBackgroundColor() {
-      let variants = cyanea(this.currentColors[4])
+      let variants = cyanea(this.currentColors[2])
       this.backgroundColor = variants.desaturated.variants[1].hex
-      return variants.desaturated.variants[1].hex
+      return this.backgroundColor
     },
   	doCommand(e) {
   		let cmd = String.fromCharCode(e.keyCode).toLowerCase();
