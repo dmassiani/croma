@@ -3,7 +3,7 @@
   <div class="bg relative bg-gray-50" :style="getColorsBG(4)">
 
     <div class="container py-4">
-      <draggable @change="changeColors" class="grid grid-cols-5 gap-4" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
+      <draggable class="grid grid-cols-5 gap-4" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
         <div v-for="(element,i) in currentColors" :key="i">
           <verte v-model="currentColors[i]" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20"></verte>
         </div>
@@ -72,7 +72,7 @@
             <a href="#" class="whitespace-nowrap text-base font-medium">
               Sign in
             </a>
-            <a :style="primaryColorsBG" href="#" class="bg ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+            <a :style="primaryColorsBG" href="#" class="bg ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium">
               Sign up
             </a>
           </div>
@@ -213,21 +213,21 @@
     <main class="lg:relative">
       <div class="mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left">
         <div class="px-4 lg:w-1/2 sm:px-8 xl:pr-16">
-          <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
-            <span class="text block xl:inline" :style="primaryColorsText">Data to enrich your</span>
-            <span class="text block text-indigo-600 xl:inline" :style="secondaryColorsText">online business</span>
+          <h1 :style="secondaryColorsText" class="text text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
+            <span class="block xl:inline">Data to enrich your</span>
+            <span class="block xl:inline">online business</span>
           </h1>
           <p class="mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl">
             Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.
           </p>
           <div class="mt-10 sm:flex sm:justify-center lg:justify-start">
             <div class="rounded-md shadow">
-              <a :style="secondaryColorsBG" href="#" class="bg w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+              <a :style="primaryColorsBG" href="#" class="bg w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
                 Get started
               </a>
             </div>
             <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-              <a :style="secondaryColorsText" href="#" class="text w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
+              <a :style="secondaryColorsBG" href="#" class="bg text w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
                 Live demo
               </a>
             </div>
@@ -244,7 +244,7 @@
 
     <div class="container py-12">
       <section class="">
-        <div class="testcolors rounded-lg p-24 bg-black text-white" :style="primaryColorsBG">
+        <div class="bg rounded-lg p-24 bg-black text-white" :style="primaryColorsBG">
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
       </section>
@@ -578,48 +578,30 @@ export default {
   computed: {
     primaryColorsBG() {
       return {
-        '--bg-color': `${this.primaryColors.color}`,
-        '--text-color': `${this.primaryColors.text}`
+        '--bg-color': this.currentColors[0],
+        '--text-color': contrastColor({ bgColor: this.currentColors[0] })
       }
     },
     primaryColorsBGInvert() {
       return {
-        '--bg-color': `#${this.primaryColors.text}`,
-        '--text-color': `${this.primaryColors.color}`
+        '--bg-color': contrastColor({ bgColor: this.currentColors[0] }),
+        '--text-color': this.currentColors[0]
       }
     },
     primaryColorsText() {
       return {
-        '--text-color': `#${this.primaryColors.color}`
+        '--text-color': this.currentColors[0]
       }
     },
     secondaryColorsBG() {
       return {
-        '--bg-color': `${this.secondaryColors.color}`,
-        '--text-color': `${this.secondaryColors.text}`
+        '--bg-color': this.currentColors[1],
+        '--text-color': contrastColor({ bgColor: this.currentColors[1] })
       }
     },
     secondaryColorsText() {
       return {
-        '--text-color': `${this.secondaryColors.color}`
-      }
-    },
-    alphaColorsBG() {
-      return {
-        '--bg-color': `${this.alphaColors.color}`,
-        '--text-color': `${this.alphaColors.text}`
-      }
-    },
-    betaColorsBG() {
-      return {
-        '--bg-color': `${this.betaColors.color}`,
-        '--text-color': `${this.betaColors.text}`
-      }
-    },
-    gammaColorsBG() {
-      return {
-        '--bg-color': `${this.gammaColors.color}`,
-        '--text-color': `${this.gammaColors.text}`
+        '--text-color': this.currentColors[1]
       }
     },
   },
@@ -649,46 +631,10 @@ export default {
           this.currentColors[3] = '#' + this.currentColors[3]
           this.currentColors[4] = '#' + this.currentColors[4]
         }
-        console.log(this.currentColors);
-
-        this.primaryColors.color = this.currentColors[0]
-        this.primaryColors.text = contrastColor({ bgColor: this.currentColors[0] });
-
-        this.secondaryColors.color = this.currentColors[1]
-        this.secondaryColors.text = contrastColor({ bgColor: this.currentColors[1] });
-
-        this.alphaColors.color = this.currentColors[2]
-        this.alphaColors.text = contrastColor({ bgColor: this.currentColors[2] });
-
-        this.betaColors.color = this.currentColors[3]
-        this.betaColors.text = contrastColor({ bgColor: this.currentColors[3] });
-
-        this.gammaColors.color = this.currentColors[4]
-        this.gammaColors.text = contrastColor({ bgColor: this.currentColors[4] });
-
         this.historique.push(this.currentColors)
         this.current++
 
       }
-    },
-    changeColors(e) {
-      // console.log(e, this.historique[this.current]);
-
-      this.primaryColors.color = this.currentColors[0]
-      this.primaryColors.text = contrastColor({ bgColor: this.currentColors[0] });
-
-      this.secondaryColors.color = this.currentColors[1]
-      this.secondaryColors.text = contrastColor({ bgColor: this.currentColors[1] });
-
-      this.alphaColors.color = this.currentColors[2]
-      this.alphaColors.text = contrastColor({ bgColor: this.currentColors[2] });
-
-      this.betaColors.color = this.currentColors[3]
-      this.betaColors.text = contrastColor({ bgColor: this.currentColors[3] });
-
-      this.gammaColors.color = this.currentColors[4]
-      this.gammaColors.text = contrastColor({ bgColor: this.currentColors[4] });
-
     },
   	doCommand(e) {
   		let cmd = String.fromCharCode(e.keyCode).toLowerCase();
@@ -702,6 +648,9 @@ export default {
 </script>
 
 <style>
+body {
+  color: var(--text-body-color);
+}
 .verte__guide{
   width: 100% !important;
   height: 5rem !important;
@@ -710,7 +659,7 @@ export default {
 .verte__icon{
   display: none;
 }
-.testcolors {
+.bg {
   color: var(--text-color);
   background-color: var(--bg-color);
 }
