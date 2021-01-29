@@ -531,6 +531,10 @@
 const { contrastColor } = require('contrast-color');
 import draggable from 'vuedraggable'
 
+function randomIntFromInterval(min, max) { // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 export default {
   data() {
     return {
@@ -556,7 +560,10 @@ export default {
         text: ''
       },
       historique: [{colors:['','','','','']}],
-      current: 0
+      current: 0,
+      apiColors: [],
+      index: 0,
+      offset: 0
     }
   },
   components: {
@@ -612,29 +619,46 @@ export default {
         '--text-color': contrastColor({ bgColor: this.currentColors[index] })
       }
     },
-    async chooseColors() {
-      let colors
+    async getPalettes(offset = 0) {
+      let colors = []
       try {
-        colors = await this.$axios.$get('/api/palettes/random?orderCol=score&sortBy=ASC&format=json')
+        colors = await this.$axios.$get(`/api/palettes/new?orderCol=score&sortBy=desc&numResults=100&resultOffset=${offset}&format=json`)
       } catch (e) {
         console.log(e);
+        return colors
       } finally {
-
-        // console.log(colors[0]);
-        //
-
-        this.currentColors = colors[0].colors
-        if(this.currentColors[0].length == 6){
-          this.currentColors[0] = '#' + this.currentColors[0]
-          this.currentColors[1] = '#' + this.currentColors[1]
-          this.currentColors[2] = '#' + this.currentColors[2]
-          this.currentColors[3] = '#' + this.currentColors[3]
-          this.currentColors[4] = '#' + this.currentColors[4]
-        }
-        this.historique.push(this.currentColors)
-        this.current++
-
+        return colors
       }
+    },
+    async defineColors() {
+
+    },
+    async chooseColors() {
+      let colors
+      if(this.current == 0 ) {
+        colors = await this.getPalettes()
+      }else if(this.current == 100) {
+        this.offset = this.offset + 100;
+        colors = await this.getPalettes(this.offset)
+        this.current = 0
+      }else{
+        colors = this.apiColors
+      }
+      console.log(this.current);
+
+      let random = randomIntFromInterval(0, 100)
+      this.apiColors = colors
+      this.currentColors = colors[random].colors
+      if(this.currentColors[0].length == 6){
+        this.currentColors[0] = '#' + this.currentColors[0]
+        this.currentColors[1] = '#' + this.currentColors[1]
+        this.currentColors[2] = '#' + this.currentColors[2]
+        this.currentColors[3] = '#' + this.currentColors[3]
+        this.currentColors[4] = '#' + this.currentColors[4]
+      }
+      this.historique.push(this.currentColors)
+      this.current++
+
     },
   	doCommand(e) {
   		let cmd = String.fromCharCode(e.keyCode).toLowerCase();
