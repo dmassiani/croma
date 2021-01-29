@@ -1,9 +1,9 @@
 <template>
     <!-- This example requires Tailwind CSS v2.0+ -->
-  <div class="bg relative bg-gray-50" :style="getColorsBG(4)">
+  <div class="bg relative bg-gray-50" :style="getGlobalColors()">
 
-    <div class="container py-4">
-      <draggable class="grid grid-cols-5 gap-4" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
+    <div class="container py-4 bg-white">
+      <draggable @change="changeColors" class="grid grid-cols-5 gap-4" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
         <div v-for="(element,i) in currentColors" :key="i">
           <verte v-model="currentColors[i]" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20"></verte>
         </div>
@@ -213,11 +213,11 @@
     <main class="lg:relative">
       <div class="mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left">
         <div class="px-4 lg:w-1/2 sm:px-8 xl:pr-16">
-          <h1 :style="secondaryColorsText" class="text text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
+          <h1 class="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
             <span class="block xl:inline">Data to enrich your</span>
             <span class="block xl:inline">online business</span>
           </h1>
-          <p class="mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl">
+          <p class="mt-3 max-w-md mx-auto text-lg sm:text-xl md:mt-5 md:max-w-3xl">
             Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.
           </p>
           <div class="mt-10 sm:flex sm:justify-center lg:justify-start">
@@ -530,6 +530,7 @@
 <script>
 const { contrastColor } = require('contrast-color');
 import draggable from 'vuedraggable'
+import cyanea from 'cyanea'
 
 function randomIntFromInterval(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -539,26 +540,8 @@ export default {
   data() {
     return {
       currentColors: [],
-      primaryColors: {
-        color: '',
-        text: ''
-      },
-      secondaryColors: {
-        color: '',
-        text: ''
-      },
-      alphaColors: {
-        color: '',
-        text: ''
-      },
-      betaColors: {
-        color: '',
-        text: ''
-      },
-      gammaColors: {
-        color: '',
-        text: ''
-      },
+      backgroundColor: '',
+      textColor: '',
       historique: [{colors:['','','','','']}],
       current: 0,
       apiColors: [],
@@ -619,6 +602,12 @@ export default {
         '--text-color': contrastColor({ bgColor: this.currentColors[index] })
       }
     },
+    getGlobalColors() {
+      return {
+        '--bg-color': this.backgroundColor,
+        '--text-color': this.textColor
+      }
+    },
     async getPalettes(offset = 0) {
       let colors = []
       try {
@@ -629,9 +618,6 @@ export default {
       } finally {
         return colors
       }
-    },
-    async defineColors() {
-
     },
     async chooseColors() {
       let colors
@@ -644,7 +630,6 @@ export default {
       }else{
         colors = this.apiColors
       }
-      console.log(this.current);
 
       let random = randomIntFromInterval(0, 100)
       this.apiColors = colors
@@ -658,7 +643,24 @@ export default {
       }
       this.historique.push(this.currentColors)
       this.current++
+      this.defineFontColor()
+      this.defineBackgroundColor()
 
+    },
+    changeColors() {
+      this.defineFontColor()
+      this.defineBackgroundColor()
+    },
+    defineFontColor() {
+      let variants = cyanea(this.currentColors[0]);
+      let totalVariants = variants.desaturated.variants.length
+      this.textColor = variants.desaturated.variants[totalVariants - 7].hex
+      return variants.desaturated.variants[totalVariants - 7].hex
+    },
+    defineBackgroundColor() {
+      let variants = cyanea(this.currentColors[4])
+      this.backgroundColor = variants.desaturated.variants[1].hex
+      return variants.desaturated.variants[1].hex
     },
   	doCommand(e) {
   		let cmd = String.fromCharCode(e.keyCode).toLowerCase();
@@ -672,9 +674,6 @@ export default {
 </script>
 
 <style>
-body {
-  color: var(--text-body-color);
-}
 .verte__guide{
   width: 100% !important;
   height: 5rem !important;
