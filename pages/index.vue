@@ -703,9 +703,9 @@ export default {
 
 <style>
 .verte__guide{
-  width: 100%;
-  height: 5rem;
-  border-radius: 0.5rem;
+  width: 100% !important;
+  height: 5rem !important;
+  border-radius: 0.5rem !important;
 }
 .verte__icon{
   display: none;
