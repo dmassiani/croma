@@ -1,4 +1,4 @@
-# SchemeColorsSelector
+# Croma
 
 ## Build Setup
 
