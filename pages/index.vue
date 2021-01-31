@@ -612,8 +612,8 @@ export default {
   data() {
     return {
       currentColors: [],
-      backgroundColor: '',
-      textColor: '',
+      backgroundColor: '#fff',
+      textColor: '#000',
       historique: [{colors:['','','','','']}],
       current: 0,
       apiColors: [],
@@ -784,7 +784,6 @@ export default {
       this.current++
       this.defineFontColor()
       this.defineBackgroundColor()
-      this.newSVG()
 
     },
     changeColors() {
@@ -817,6 +816,7 @@ export default {
       if(cmd == ' '){
         e.preventDefault();
         this.chooseColors()
+        this.newSVG()
       }
   	},
     hslToHex(hsl) {
