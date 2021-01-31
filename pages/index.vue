@@ -1,37 +1,49 @@
 <template>
   <div>
 
-    <div class="p-4 bg-white w-full fixed z-10 shadow-lg">
-      <draggable @change="changeColors" class="grid grid-cols-5 gap-4" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
+    <div class="p-4 bg-white fixed z-10 right-10 top-40 w-28 rounded-2xl shadow-lg">
+      <draggable @change="changeColors" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
         <div v-for="(element,i) in currentColors" :key="i">
-          <verte v-model="currentColors[i]" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20"></verte>
+          <verte v-model="currentColors[i]" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20 mb-2"></verte>
         </div>
       </draggable>
+      <div class="grid grid-cols-2 gap-2">
+        <verte v-model="textColor" picker="square" :style="getTextColor()" class="bg rounded-lg w-full h-10"></verte>
+        <verte v-model="backgroundColor" picker="square" :style="getBackgroundColor(i)" class="bg rounded-lg w-full h-10"></verte>
+        <button type="button" name="button" @click.prevent="back" class="text-center mt-4">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 ml-auto mr-auto">
+              <defs>
+                  <style>.a{fill:none;stroke:#888;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style>
+              </defs>
+              <path class="a" d="M17.248,18.747v-4.5a1.5,1.5,0,0,1,1.5-1.5h4.5"></path>
+              <path class="a" d="M23.248,12.747a6,6,0,0,1-6,6h-6V22.5a.75.75,0,0,1-1.3.512l-8.8-9.988a1.5,1.5,0,0,1,0-2.047L9.95.987a.75.75,0,0,1,1.3.512V5.247h10.5a1.5,1.5,0,0,1,1.5,1.5Z"></path>
+          </svg>
+        </button>
+        <button type="button" name="button" @click.prevent="back" class="text-center mt-4">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 ml-auto mr-auto">
+              <defs>
+                  <style>.a{fill:none;stroke:#888;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style>
+              </defs>
+              <path class="a" d="M6.748,5.249v4.5a1.5,1.5,0,0,1-1.5,1.5H.748"></path>
+              <path class="a" d="M.748,11.249a6,6,0,0,1,6-6h6V1.5a.75.75,0,0,1,1.3-.512l8.8,9.988a1.5,1.5,0,0,1,0,2.047l-8.8,9.987a.75.75,0,0,1-1.3-.512V18.749H2.248a1.5,1.5,0,0,1-1.5-1.5Z"></path>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <!-- This example requires Tailwind CSS v2.0+ -->
-    <div class="pt-32 bg relative bg-gray-50 z-0" :style="getGlobalColors()">
+    <div class="bg relative bg-gray-50 z-0" :style="getGlobalColors()">
 
       <!-- HEAD -->
       <div class="relative bg-transparent">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
           <div class="flex justify-between items-center py-6 md:justify-start md:space-x-10">
+            <a href="#" class="font-bold text-2xl">
+              <span>Croma</span>
+              <!-- <img class="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark.svg" alt=""> -->
+            </a>
             <div class="flex justify-start lg:w-0 lg:flex-1">
-              <a href="#" class="font-bold text-2xl">
-                <span>Croma</span>
-                <!-- <img class="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark.svg" alt=""> -->
-              </a>
-            </div>
-            <div class="-mr-2 -my-2 md:hidden">
-              <button type="button" class=" rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                <span class="sr-only">Open menu</span>
-                <!-- Heroicon name: menu -->
-                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-            <nav class="hidden md:flex space-x-10">
+              <nav class="hidden md:flex space-x-10">
               <div class="relative">
                 <!-- Item active: "text-gray-900", Item inactive: "text-gray-500" -->
                 <button type="button" class="group rounded-md inline-flex items-center text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -71,6 +83,16 @@
 
               </div>
             </nav>
+            </div>
+            <div class="-mr-2 -my-2 md:hidden">
+              <button type="button" class=" rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                <span class="sr-only">Open menu</span>
+                <!-- Heroicon name: menu -->
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
             <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <a href="#" class="whitespace-nowrap text-base font-medium">
                 Sign in
@@ -82,16 +104,6 @@
           </div>
         </div>
 
-        <!--
-          Mobile menu, show/hide based on mobile menu state.
-
-          Entering: "duration-200 ease-out"
-            From: "opacity-0 scale-95"
-            To: "opacity-100 scale-100"
-          Leaving: "duration-100 ease-in"
-            From: "opacity-100 scale-100"
-            To: "opacity-0 scale-95"
-        -->
         <div class="absolute top-0 inset-x-0 z-10 p-2 transition transform origin-top-right md:hidden">
           <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
             <div class="pt-5 pb-6 px-5">
@@ -116,7 +128,7 @@
                     <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
-                    <span class="ml-3 text-base font-medium text-gray-900">
+                    <span class="ml-3 text-base font-medium">
                       Analytics
                     </span>
                   </a>
@@ -126,7 +138,7 @@
                     <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
                     </svg>
-                    <span class="ml-3 text-base font-medium text-gray-900">
+                    <span class="ml-3 text-base font-medium">
                       Engagement
                     </span>
                   </a>
@@ -136,7 +148,7 @@
                     <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
-                    <span class="ml-3 text-base font-medium text-gray-900">
+                    <span class="ml-3 text-base font-medium">
                       Security
                     </span>
                   </a>
@@ -146,7 +158,7 @@
                     <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                     </svg>
-                    <span class="ml-3 text-base font-medium text-gray-900">
+                    <span class="ml-3 text-base font-medium">
                       Integrations
                     </span>
                   </a>
@@ -156,7 +168,7 @@
                     <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <span class="ml-3 text-base font-medium text-gray-900">
+                    <span class="ml-3 text-base font-medium">
                       Automations
                     </span>
                   </a>
@@ -165,35 +177,35 @@
             </div>
             <div class="py-6 px-5 space-y-6">
               <div class="grid grid-cols-2 gap-y-4 gap-x-8">
-                <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700">
+                <a href="#" class="text-base font-medium">
                   Pricing
                 </a>
 
-                <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700">
+                <a href="#" class="text-base font-medium">
                   Docs
                 </a>
 
-                <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700">
+                <a href="#" class="text-base font-medium">
                   Enterprise
                 </a>
 
-                <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700">
+                <a href="#" class="text-base font-medium">
                   Blog
                 </a>
 
-                <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700">
+                <a href="#" class="text-base font-medium">
                   Help Center
                 </a>
 
-                <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700">
+                <a href="#" class="text-base font-medium">
                   Guides
                 </a>
 
-                <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700">
+                <a href="#" class="text-base font-medium">
                   Security
                 </a>
 
-                <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700">
+                <a href="#" class="text-base font-medium">
                   Events
                 </a>
               </div>
@@ -304,7 +316,7 @@
                   </div>
                 </div>
                 <div class="ml-4">
-                  <dt class="text-lg leading-6 font-medium text-gray-900">
+                  <dt class="text-lg leading-6 font-medium">
                     Competitive exchange rates
                   </dt>
                   <dd class="mt-2 text-base text-gray-500">
@@ -323,7 +335,7 @@
                   </div>
                 </div>
                 <div class="ml-4">
-                  <dt class="text-lg leading-6 font-medium text-gray-900">
+                  <dt class="text-lg leading-6 font-medium">
                     No hidden fees
                   </dt>
                   <dd class="mt-2 text-base text-gray-500">
@@ -342,7 +354,7 @@
                   </div>
                 </div>
                 <div class="ml-4">
-                  <dt class="text-lg leading-6 font-medium text-gray-900">
+                  <dt class="text-lg leading-6 font-medium">
                     Transfers are instant
                   </dt>
                   <dd class="mt-2 text-base text-gray-500">
@@ -361,7 +373,7 @@
                   </div>
                 </div>
                 <div class="ml-4">
-                  <dt class="text-lg leading-6 font-medium text-gray-900">
+                  <dt class="text-lg leading-6 font-medium">
                     Mobile notifications
                   </dt>
                   <dd class="mt-2 text-base text-gray-500">
@@ -681,6 +693,16 @@ export default {
         '--text-color': this.textColor
       }
     },
+    getTextColor() {
+      return {
+        '--bg-color': this.textColor
+      }
+    },
+    getBackgroundColor() {
+      return {
+        '--bg-color': this.backgroundColor,
+      }
+    },
     async getPalettes(offset = 0) {
       let colors = []
       try {
@@ -726,13 +748,14 @@ export default {
 
       this.historique.push(this.currentColors)
       this.current++
-      this.changeColors()
-
-    },
-    changeColors() {
       this.defineFontColor()
       this.defineBackgroundColor()
       this.newSVG()
+
+    },
+    changeColors() {
+      // this.defineFontColor()
+      // this.defineBackgroundColor()
     },
     newSVG() {
       this.illustration = SVGS[randomIntFromInterval(0, SVGS.length - 1)]
