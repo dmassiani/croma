@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="p-4 bg-white w-full fixed z-10">
+    <div class="p-4 bg-white w-full fixed z-10 shadow-lg">
       <draggable @change="changeColors" class="grid grid-cols-5 gap-4" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
         <div v-for="(element,i) in currentColors" :key="i">
           <verte v-model="currentColors[i]" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20"></verte>
@@ -273,13 +273,13 @@
       <!-- IPHONE -->
       <div class="container py-20">
         <section class="relative">
-          <div class="ml-auto mr-auto bg rounded-full text-white w-96 h-96 " :style="secondaryColorsBG">
-            <img src="/iphone.png" alt="" class="w-60 ml-auto mr-auto">
+          <div :style="secondaryColorsBG" class="ml-auto mr-auto bg rounded-full text-white w-96 h-96">
+            <img src="/iphone.png" alt="" class="w-60 ml-auto mr-auto relative -top-12">
           </div>
         </section>
       </div>
 
-      <!-- This example requires Tailwind CSS v2.0+ -->
+      <!-- A better way -->
       <div class="mt-12">
         <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="lg:text-center py-12">
@@ -296,7 +296,7 @@
             <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
               <div class="flex">
                 <div class="flex-shrink-0">
-                  <div :style="primaryColorsBG" class="bg flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                  <div :style="getColorsBG(0)" class="bg flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                     <!-- Heroicon name: globe-alt -->
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
@@ -315,7 +315,7 @@
 
               <div class="flex">
                 <div class="flex-shrink-0">
-                  <div :style="primaryColorsBG" class="bg flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                  <div :style="getColorsBG(1)" class="bg flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                     <!-- Heroicon name: scale -->
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
@@ -334,7 +334,7 @@
 
               <div class="flex">
                 <div class="flex-shrink-0">
-                  <div :style="primaryColorsBG" class="bg flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                  <div :style="getColorsBG(2)" class="bg flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                     <!-- Heroicon name: lightning-bolt -->
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -353,7 +353,7 @@
 
               <div class="flex">
                 <div class="flex-shrink-0">
-                  <div :style="primaryColorsBG" class="bg flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                  <div :style="getColorsBG(3)" class="bg flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                     <!-- Heroicon name: annotation -->
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
@@ -390,7 +390,7 @@
               <div class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:px-0 lg:py-20 lg:max-w-none">
                 <blockquote>
                   <div>
-                    <svg class="h-12 w-12 text-white opacity-25" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
+                    <svg :style="secondaryColorsText" class="text h-12 w-12" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
                       <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
                     </svg>
                     <p class="mt-6 text-2xl font-medium">
@@ -408,7 +408,6 @@
         </div>
       </div>
 
-
       <!-- This example requires Tailwind CSS v2.0+ -->
       <div class="relative py-16 sm:py-24 lg:py-32">
         <div class="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
@@ -416,13 +415,13 @@
           <p class="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
             Everything you need to deploy your app
           </p>
-          <p class="mt-5 max-w-prose mx-auto text-xl text-gray-500">
+          <p class="mt-5 max-w-prose mx-auto text-xl">
             Phasellus lorem quam molestie id quisque diam aenean nulla in. Accumsan in quis quis nunc, ullamcorper malesuada. Eleifend condimentum id viverra nulla.
           </p>
           <div class="mt-12">
             <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               <div class="pt-6">
-                <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div :style="getVariantBG(1, 1)" class="bg flow-root rounded-lg px-6 pb-8">
                   <div class="-mt-6">
                     <div>
                       <span :style="primaryColorsBG" class="bg inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
@@ -432,8 +431,8 @@
                         </svg>
                       </span>
                     </div>
-                    <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Push to Deploy</h3>
-                    <p class="mt-5 text-base text-gray-500">
+                    <h3 class="mt-8 text-lg font-medium tracking-tight">Push to Deploy</h3>
+                    <p class="mt-5 text-base">
                       Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
                     </p>
                   </div>
@@ -441,7 +440,7 @@
               </div>
 
               <div class="pt-6">
-                <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div :style="getVariantBG(1, 1)" class="bg flow-root rounded-lg px-6 pb-8">
                   <div class="-mt-6">
                     <div>
                       <span :style="primaryColorsBG" class="bg inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
@@ -451,8 +450,8 @@
                         </svg>
                       </span>
                     </div>
-                    <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">SSL Certificates</h3>
-                    <p class="mt-5 text-base text-gray-500">
+                    <h3 class="mt-8 text-lg font-medium tracking-tight">SSL Certificates</h3>
+                    <p class="mt-5 text-base">
                       Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
                     </p>
                   </div>
@@ -460,7 +459,7 @@
               </div>
 
               <div class="pt-6">
-                <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div :style="getVariantBG(1, 1)" class="bg flow-root rounded-lg px-6 pb-8">
                   <div class="-mt-6">
                     <div>
                       <span :style="primaryColorsBG" class="bg inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
@@ -470,8 +469,8 @@
                         </svg>
                       </span>
                     </div>
-                    <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Simple Queues</h3>
-                    <p class="mt-5 text-base text-gray-500">
+                    <h3 class="mt-8 text-lg font-medium tracking-tight">Simple Queues</h3>
+                    <p class="mt-5 text-base">
                       Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
                     </p>
                   </div>
@@ -479,7 +478,7 @@
               </div>
 
               <div class="pt-6">
-                <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div :style="getVariantBG(1, 1)" class="bg flow-root rounded-lg px-6 pb-8">
                   <div class="-mt-6">
                     <div>
                       <span :style="primaryColorsBG" class="bg inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
@@ -489,8 +488,8 @@
                         </svg>
                       </span>
                     </div>
-                    <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Advanced Security</h3>
-                    <p class="mt-5 text-base text-gray-500">
+                    <h3 class="mt-8 text-lg font-medium tracking-tight">Advanced Security</h3>
+                    <p class="mt-5 text-base">
                       Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
                     </p>
                   </div>
@@ -498,7 +497,7 @@
               </div>
 
               <div class="pt-6">
-                <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div :style="getVariantBG(1, 1)" class="bg flow-root rounded-lg px-6 pb-8">
                   <div class="-mt-6">
                     <div>
                       <span :style="primaryColorsBG" class="bg inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
@@ -509,8 +508,8 @@
                         </svg>
                       </span>
                     </div>
-                    <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Powerful API</h3>
-                    <p class="mt-5 text-base text-gray-500">
+                    <h3 class="mt-8 text-lg font-medium tracking-tight">Powerful API</h3>
+                    <p class="mt-5 text-base">
                       Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
                     </p>
                   </div>
@@ -518,7 +517,7 @@
               </div>
 
               <div class="pt-6">
-                <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                <div :style="getVariantBG(1, 1)" class="bg flow-root rounded-lg px-6 pb-8">
                   <div class="-mt-6">
                     <div>
                       <span :style="primaryColorsBG" class="bg inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
@@ -528,8 +527,8 @@
                         </svg>
                       </span>
                     </div>
-                    <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Database Backups</h3>
-                    <p class="mt-5 text-base text-gray-500">
+                    <h3 class="mt-8 text-lg font-medium tracking-tight">Database Backups</h3>
+                    <p class="mt-5 text-base">
                       Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
                     </p>
                   </div>
