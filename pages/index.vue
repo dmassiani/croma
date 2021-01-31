@@ -1,36 +1,51 @@
 <template>
   <div>
 
-    <div class="p-4 bg-white fixed z-10 right-10 top-40 w-28 rounded-2xl shadow-lg">
-      <draggable @change="changeColors" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
-        <div v-for="(element,i) in currentColors" :key="i">
-          <verte v-model="currentColors[i]" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20 mb-2"></verte>
-        </div>
-      </draggable>
-      <div class="grid grid-cols-2 gap-2">
-        <verte v-model="textColor" picker="square" :style="getTextColor()" class="bg rounded-lg w-full h-10"></verte>
-        <verte v-model="backgroundColor" picker="square" :style="getBackgroundColor(i)" class="bg rounded-lg w-full h-10"></verte>
-        <button type="button" name="button" @click.prevent="back" class="text-center mt-4">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 ml-auto mr-auto">
-              <defs>
-                  <style>.a{fill:none;stroke:#888;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style>
-              </defs>
-              <path class="a" d="M17.248,18.747v-4.5a1.5,1.5,0,0,1,1.5-1.5h4.5"></path>
-              <path class="a" d="M23.248,12.747a6,6,0,0,1-6,6h-6V22.5a.75.75,0,0,1-1.3.512l-8.8-9.988a1.5,1.5,0,0,1,0-2.047L9.95.987a.75.75,0,0,1,1.3.512V5.247h10.5a1.5,1.5,0,0,1,1.5,1.5Z"></path>
-          </svg>
-        </button>
-        <button type="button" name="button" @click.prevent="back" class="text-center mt-4">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 ml-auto mr-auto">
-              <defs>
-                  <style>.a{fill:none;stroke:#888;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style>
-              </defs>
-              <path class="a" d="M6.748,5.249v4.5a1.5,1.5,0,0,1-1.5,1.5H.748"></path>
-              <path class="a" d="M.748,11.249a6,6,0,0,1,6-6h6V1.5a.75.75,0,0,1,1.3-.512l8.8,9.988a1.5,1.5,0,0,1,0,2.047l-8.8,9.987a.75.75,0,0,1-1.3-.512V18.749H2.248a1.5,1.5,0,0,1-1.5-1.5Z"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
+    <draggable @start="drag=true" @end="drag=false">
+      <div class="p-4 bg-white fixed z-10 right-10 top-40 w-28 rounded-2xl shadow-lg">
 
+        <draggable @change="changeColors" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
+          <div v-for="(element,i) in currentColors" :key="i">
+            <verte :showHistory="false" v-model="currentColors[i]" model="hex" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20 mb-2"></verte>
+          </div>
+        </draggable>
+
+        <div class="grid grid-cols-2 gap-2">
+          <verte :showHistory="false" v-model="textColor" picker="square" :style="getTextColor()" class="bg rounded-lg w-full h-10"></verte>
+          <verte :showHistory="false" v-model="backgroundColor" picker="square" :style="getBackgroundColor()" class="bg rounded-lg w-full h-10"></verte>
+          <button type="button" name="button" @click.prevent="back" class="text-center mt-4">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 ml-auto mr-auto">
+                <defs>
+                    <style>.a{fill:none;stroke:#888;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style>
+                </defs>
+                <path class="a" d="M17.248,18.747v-4.5a1.5,1.5,0,0,1,1.5-1.5h4.5"></path>
+                <path class="a" d="M23.248,12.747a6,6,0,0,1-6,6h-6V22.5a.75.75,0,0,1-1.3.512l-8.8-9.988a1.5,1.5,0,0,1,0-2.047L9.95.987a.75.75,0,0,1,1.3.512V5.247h10.5a1.5,1.5,0,0,1,1.5,1.5Z"></path>
+            </svg>
+          </button>
+          <button type="button" name="button" @click.prevent="next" class="text-center mt-4">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 ml-auto mr-auto">
+                <defs>
+                    <style>.a{fill:none;stroke:#888;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style>
+                </defs>
+                <path class="a" d="M6.748,5.249v4.5a1.5,1.5,0,0,1-1.5,1.5H.748"></path>
+                <path class="a" d="M.748,11.249a6,6,0,0,1,6-6h6V1.5a.75.75,0,0,1,1.3-.512l8.8,9.988a1.5,1.5,0,0,1,0,2.047l-8.8,9.987a.75.75,0,0,1-1.3-.512V18.749H2.248a1.5,1.5,0,0,1-1.5-1.5Z"></path>
+            </svg>
+          </button>
+          <button @click.prevent="invertBackground" class="inverter absolute bg-white rounded-full w-6 h-6 p-1 shadow" type="button" name="button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <defs>
+                    <style>.a{fill:none;stroke:#888;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style>
+                </defs>
+                <path class="a" d="M10.1,9A5.617,5.617,0,0,0,6,6.748H.75"></path>
+                <path class="a" d="M23.25,6.748H18c-3.75,0-6,5.25-6,5.25s-2.25,5.25-6,5.25H.75"></path>
+                <path class="a" d="M13.9,15A5.61,5.61,0,0,0,18,17.248h5.25"></path>
+                <polyline class="a" points="20.25 3.748 23.25 6.748 20.25 9.748"></polyline>
+                <polyline class="a" points="20.25 14.248 23.25 17.248 20.25 20.248"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </draggable>
     <!-- This example requires Tailwind CSS v2.0+ -->
     <div class="bg relative bg-gray-50 z-0" :style="getGlobalColors()">
 
@@ -245,7 +260,7 @@
             </div>
           </div>
         </div>
-        <div class="relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full overflow-hidden">
+        <div class="relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
           <!-- <img class="absolute inset-0 w-full h-full object-cover" src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80" alt=""> -->
           <!-- <svg width="713px" height="663px" viewBox="0 0 713 663" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -557,8 +572,8 @@
             <span class="block">Boost your productivity.</span>
             <span class="block">Start using Workflow today.</span>
           </h2>
-          <p class="mt-4 text-lg leading-6 opacity-25">Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla nec.</p>
-          <a :style="secondaryColorsBG" href="#" class="bg mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white sm:w-auto">
+          <p class="mt-4 text-lg leading-6 opacity-50">Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla nec.</p>
+          <a :style="secondaryColorsBG" href="#" class="bg mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md sm:w-auto">
             Sign up for free
           </a>
         </div>
@@ -570,6 +585,7 @@
 
 <script>
 const { contrastColor } = require('contrast-color');
+import colorContrast from 'color-contrast'
 import draggable from 'vuedraggable'
 import cyanea from 'cyanea'
 
@@ -624,15 +640,15 @@ export default {
   },
   computed: {
     primaryColorsBG() {
-      // console.log(this.currentColors[0], contrastColor({ bgColor: this.currentColors[0] }), cyanea(this.currentColors[0]), Color.contrastTextColor(this.currentColors[0],"hex"))
+      // console.log(this.getBestContrast(this.currentColors[0]), this.currentColors[0], contrastColor({ bgColor: this.currentColors[0] }), cyanea(this.currentColors[0]))
       return {
         '--bg-color': this.currentColors[0],
-        '--text-color': contrastColor({ bgColor: this.currentColors[0] })
+        '--text-color': this.getBestContrast(this.currentColors[0])
       }
     },
     primaryColorsBGInvert() {
       return {
-        '--bg-color': contrastColor({ bgColor: this.currentColors[0] }),
+        '--bg-color': this.getBestContrast(this.currentColors[0]),
         '--text-color': this.currentColors[0]
       }
     },
@@ -644,7 +660,7 @@ export default {
     secondaryColorsBG() {
       return {
         '--bg-color': this.currentColors[1],
-        '--text-color': contrastColor({ bgColor: this.currentColors[1] })
+        '--text-color': this.getBestContrast(this.currentColors[1])
       }
     },
     secondaryColorsText() {
@@ -654,22 +670,33 @@ export default {
     },
   },
   methods: {
+    back() {
+
+    },
+    next() {
+
+    },
+    invertBackground() {
+      let textColor = this.textColor, backgroundColor = this.backgroundColor
+      this.backgroundColor = textColor
+      this.textColor = backgroundColor
+    },
     getColorsBG(index) {
       return {
         '--bg-color': this.currentColors[index],
-        '--text-color': contrastColor({ bgColor: this.currentColors[index] })
+        '--text-color': this.getBestContrast(this.currentColors[index])
       }
     },
     getVariantBG(index, level) {
       if(cyanea(this.currentColors[index]).saturated == undefined){
         return {
           '--bg-color': this.currentColors[index],
-          '--text-color': contrastColor({ bgColor: this.currentColors[index] })
+          '--text-color': this.getBestContrast(this.currentColors[index])
         }
       }
       return {
         '--bg-color': cyanea(this.currentColors[index]).saturated.variants[level].hex,
-        '--text-color': contrastColor({ bgColor: cyanea(this.currentColors[index]).saturated.variants[level].hex })
+        '--text-color': this.getBestContrast(cyanea(this.currentColors[index]).saturated.variants[level].hex)
       }
     },
     getVariantFill(index, level) {
@@ -701,6 +728,13 @@ export default {
     getBackgroundColor() {
       return {
         '--bg-color': this.backgroundColor,
+      }
+    },
+    getBestContrast(color) {
+      if(colorContrast(color, '#000') >= colorContrast(color, '#fff')){
+        return '#000'
+      }else{
+        return '#fff'
       }
     },
     async getPalettes(offset = 0) {
@@ -822,6 +856,9 @@ export default {
 </script>
 
 <style>
+.inverter {
+  left: 44px;
+}
 .verte__guide{
   width: 100% !important;
   height: 5rem !important;
