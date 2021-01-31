@@ -14,6 +14,7 @@
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.4.0",
+    "ac-colors": "^1.4.2",
     "autoprefixer": "^9",
     "contrast-color": "^1.0.1",
     "core-js": "^3.8.3",
