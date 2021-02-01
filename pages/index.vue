@@ -249,7 +249,7 @@
               <span class="block xl:inline">color scheme</span>
             </h1>
             <p class="mt-3 max-w-md mx-auto text-lg sm:text-xl md:mt-5 md:max-w-3xl">
-              Use spacebar for generate a new scheme. You can order colors. First color is primary and used by text color (dark), second color is secondary and used for background color (very light).
+              Use <strong class="font-bold">spacebar</strong> for generate a new scheme. You can order colors. First color is primary and used by text color (dark), second color is secondary and used for background color (very light).
             </p>
             <div class="mt-10 sm:flex sm:justify-center lg:justify-start">
               <div class="rounded-md">
