@@ -13,24 +13,8 @@
             <div class="options bg-white h-8 absolute top-0 rounded-lg p-2">
               <div class="grid grid-cols-2 text-center">
                 <button class="w-4 h-4 ml-auto mr-auto" type="button" name="button" @click.prevent="lock(i)">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" v-if="locked[i]">
-                    <defs>
-                      <style>.a{fill:none;stroke:#999;stroke-linecap:round;stroke-linejoin:round;}</style>
-                    </defs>
-                    <circle class="a" cx="12" cy="16" r="7.5"></circle>
-                    <path class="a" d="M17.5,10.907V6a5.5,5.5,0,0,0-11,0v4.907"></path>
-                    <circle class="a" cx="12" cy="16" r="1"></circle>
-                    <line class="a" x1="12" y1="17" x2="12" y2="20"></line>
-                  </svg>
-                  <svg class="ml-auto mr-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" v-else>
-                    <defs>
-                      <style>.a{fill:none;stroke:#999;stroke-linecap:round;stroke-linejoin:round;}</style>
-                    </defs>
-                    <circle class="a" cx="12" cy="16" r="7.5"></circle>
-                    <path class="a" d="M17.5,10.917V5.5a5,5,0,0,0-10,0"></path>
-                    <circle class="a" cx="12" cy="16" r="1"></circle>
-                    <line class="a" x1="12" y1="17" x2="12" y2="20"></line>
-                  </svg>
+                  <div v-html="unlockedSVG" v-if="locked[i]" />
+                  <div v-html="lockedSVG" v-else />
                 </button>
                 <button class="w-4 h-4 text-center" type="button" name="button" @click.prevent="copy(i)">
                   <svg class="ml-auto mr-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -519,6 +503,7 @@ import cyanea from 'cyanea'
 
 // SVGS
 import unlockedSVG from "~/assets/svgs/unlocked.svg?raw";
+import lockedSVG from "~/assets/svgs/locked.svg?raw";
 
 function randomIntFromInterval(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -555,6 +540,7 @@ export default {
       illustration: SVGS[0],
       maxRandom: 100,
       unlockedSVG,
+      lockedSVG,
     }
   },
   components: {
