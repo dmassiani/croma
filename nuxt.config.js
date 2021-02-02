@@ -24,7 +24,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/picker.js', ssr: false},
+    // { src: '~/plugins/picker.js', ssr: false},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -40,7 +40,22 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
+    "vue-toastification/nuxt",
   ],
+
+  toast: {
+    position: "bottom-center",
+    timeout: 2700,
+    closeOnClick: true,
+    pauseOnFocusLoss: false,
+    pauseOnHover: false,
+    draggable: true,
+    draggablePercent: 0.6,
+    showCloseButtonOnHover: false,
+    hideProgressBar: true,
+    closeButton: "button",
+    icon: false
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

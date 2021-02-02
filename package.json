@@ -26,6 +26,7 @@
     "sass-loader": "^10.1.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "verte": "^0.0.12",
+    "vue-toastification": "^1.7.11",
     "vuedraggable": "^2.24.3"
   },
   "devDependencies": {}
