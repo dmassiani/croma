@@ -5,14 +5,68 @@
       <div class="p-4 bg-white fixed z-10 right-10 top-40 w-28 rounded-2xl shadow-lg">
 
         <draggable @change="changeColors" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
-          <div v-for="(element,i) in currentColors" :key="i">
-            <verte :showHistory="false" v-model="currentColors[i]" model="hex" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20 mb-2"></verte>
+          <div class="color relative" v-for="(element,i) in currentColors" :key="i">
+            <div class="absolute w-20 h-2O z-10 p-4" v-if="locked[i]">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" v-if="locked[i]" class="opacity-50">
+                <defs>
+                  <style>.a{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;}</style>
+                </defs>
+                <circle class="a" cx="12" cy="16" r="7.5"></circle>
+                <path class="a" d="M17.5,10.907V6a5.5,5.5,0,0,0-11,0v4.907"></path>
+                <circle class="a" cx="12" cy="16" r="1"></circle>
+                <line class="a" x1="12" y1="17" x2="12" y2="20"></line>
+              </svg>
+            </div>
+            <verte :showHistory="false" v-model="currentColors[i]" model="hex" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20 mb-2"/>
+            <div class="options bg-white h-8 absolute top-0 rounded-lg p-2">
+              <div class="grid grid-cols-2 text-center">
+                <button class="w-4 h-4 ml-auto mr-auto" type="button" name="button" @click.prevent="lock(i)">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" v-if="locked[i]">
+                    <defs>
+                      <style>.a{fill:none;stroke:#999;stroke-linecap:round;stroke-linejoin:round;}</style>
+                    </defs>
+                    <circle class="a" cx="12" cy="16" r="7.5"></circle>
+                    <path class="a" d="M17.5,10.907V6a5.5,5.5,0,0,0-11,0v4.907"></path>
+                    <circle class="a" cx="12" cy="16" r="1"></circle>
+                    <line class="a" x1="12" y1="17" x2="12" y2="20"></line>
+                  </svg>
+                  <svg class="ml-auto mr-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" v-else>
+                    <defs>
+                      <style>.a{fill:none;stroke:#999;stroke-linecap:round;stroke-linejoin:round;}</style>
+                    </defs>
+                    <circle class="a" cx="12" cy="16" r="7.5"></circle>
+                    <path class="a" d="M17.5,10.917V5.5a5,5,0,0,0-10,0"></path>
+                    <circle class="a" cx="12" cy="16" r="1"></circle>
+                    <line class="a" x1="12" y1="17" x2="12" y2="20"></line>
+                  </svg>
+                </button>
+                <button class="w-4 h-4 text-center" type="button" name="button" @click.prevent="copy(i)">
+                  <svg class="ml-auto mr-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <defs>
+                      <style>.a{fill:none;stroke:#999;stroke-linecap:round;stroke-linejoin:round;}</style>
+                    </defs>
+                    <line class="a" x1="0.5" y1="7.5" x2="0.5" y2="8.5"></line>
+                    <line class="a" x1="4.5" y1="23.5" x2="3.5" y2="23.5"></line>
+                    <line class="a" x1="7.5" y1="23.5" x2="6.5" y2="23.5"></line>
+                    <line class="a" x1="10.5" y1="23.5" x2="9.5" y2="23.5"></line>
+                    <line class="a" x1="13.5" y1="23.5" x2="12.5" y2="23.5"></line>
+                    <line class="a" x1="16.5" y1="23.5" x2="15.5" y2="23.5"></line>
+                    <path class="a" d="M1.5,23.5a1,1,0,0,1-1-1"></path>
+                    <line class="a" x1="0.5" y1="20.5" x2="0.5" y2="19.5"></line>
+                    <line class="a" x1="0.5" y1="17.5" x2="0.5" y2="16.5"></line>
+                    <line class="a" x1="0.5" y1="14.5" x2="0.5" y2="13.5"></line>
+                    <line class="a" x1="0.5" y1="11.5" x2="0.5" y2="10.5"></line>
+                    <rect class="a" x="4.5" y="0.5" width="19" height="19" rx="1" ry="1"></rect>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
         </draggable>
 
         <div class="grid grid-cols-2 gap-2">
-          <verte :showHistory="false" v-model="textColor" picker="square" :style="getTextColor()" class="bg rounded-lg w-full h-10"></verte>
-          <verte :showHistory="false" v-model="backgroundColor" picker="square" :style="getBackgroundColor()" class="bg rounded-lg w-full h-10"></verte>
+          <verte :showHistory="false" v-model="textColor" picker="square" :style="getTextColor()" class="bg rounded-lg w-full h-10"/>
+          <verte :showHistory="false" v-model="backgroundColor" picker="square" :style="getBackgroundColor()" class="bg rounded-lg w-full h-10"/>
           <button type="button" name="button" @click.prevent="back" class="text-center mt-4">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 ml-auto mr-auto">
                 <defs>
@@ -46,6 +100,7 @@
         </div>
       </div>
     </draggable>
+
     <!-- This example requires Tailwind CSS v2.0+ -->
     <div class="bg relative bg-gray-50 z-0" :style="getGlobalColors()">
 
@@ -119,125 +174,6 @@
           </div>
         </div>
 
-        <div class="absolute top-0 inset-x-0 z-10 p-2 transition transform origin-top-right md:hidden">
-          <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
-            <div class="pt-5 pb-6 px-5">
-              <div class="flex items-center justify-between">
-                <div>
-                  <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
-                </div>
-                <div class="-mr-2">
-                  <button type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                    <span class="sr-only">Close menu</span>
-                    <!-- Heroicon name: x -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div class="mt-6">
-                <nav class="grid gap-y-8">
-                  <a href="#" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-                    <!-- Heroicon name: chart-bar -->
-                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    <span class="ml-3 text-base font-medium">
-                      Analytics
-                    </span>
-                  </a>
-
-                  <a href="#" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-                    <!-- Heroicon name: cursor-click -->
-                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-                    </svg>
-                    <span class="ml-3 text-base font-medium">
-                      Engagement
-                    </span>
-                  </a>
-
-                  <a href="#" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-                    <!-- Heroicon name: shield-check -->
-                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                    <span class="ml-3 text-base font-medium">
-                      Security
-                    </span>
-                  </a>
-
-                  <a href="#" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-                    <!-- Heroicon name: view-grid -->
-                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                    </svg>
-                    <span class="ml-3 text-base font-medium">
-                      Integrations
-                    </span>
-                  </a>
-
-                  <a href="#" class="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-                    <!-- Heroicon name: refresh -->
-                    <svg class="flex-shrink-0 h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    <span class="ml-3 text-base font-medium">
-                      Automations
-                    </span>
-                  </a>
-                </nav>
-              </div>
-            </div>
-            <div class="py-6 px-5 space-y-6">
-              <div class="grid grid-cols-2 gap-y-4 gap-x-8">
-                <a href="#" class="text-base font-medium">
-                  Pricing
-                </a>
-
-                <a href="#" class="text-base font-medium">
-                  Docs
-                </a>
-
-                <a href="#" class="text-base font-medium">
-                  Enterprise
-                </a>
-
-                <a href="#" class="text-base font-medium">
-                  Blog
-                </a>
-
-                <a href="#" class="text-base font-medium">
-                  Help Center
-                </a>
-
-                <a href="#" class="text-base font-medium">
-                  Guides
-                </a>
-
-                <a href="#" class="text-base font-medium">
-                  Security
-                </a>
-
-                <a href="#" class="text-base font-medium">
-                  Events
-                </a>
-              </div>
-              <div>
-                <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-                  Sign up
-                </a>
-                <p class="mt-6 text-center text-base font-medium text-gray-500">
-                  Existing customer?
-                  <a href="#" class="text-indigo-600 hover:text-indigo-500">
-                    Sign in
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- HERO -->
@@ -615,11 +551,14 @@ export default {
       backgroundColor: '#fff',
       textColor: '#000',
       historique: [{colors:['','','','','']}],
+      locked: [false, false, false, false, false],
+      hasLockedColor: false,
       current: 0,
       apiColors: [],
       index: 0,
       offset: 0,
       illustration: SVGS[0],
+      maxRandom: 100,
     }
   },
   components: {
@@ -636,7 +575,10 @@ export default {
     }
   },
   mounted() {
-    this.chooseColors()
+    console.log('mounted choose colors');
+  },
+  async fetch() {
+    await this.chooseColors()
   },
   computed: {
     primaryColorsBG() {
@@ -675,6 +617,27 @@ export default {
     },
     next() {
 
+    },
+    lock(i) {
+      if( this.locked[i] == true ){
+        this.$set(this.locked, i, false)
+        // this.locked[i] = false
+      }else{
+        this.$set(this.locked, i, true)
+        // this.locked[i] = true
+      }
+      console.log('lock', this.locked[i]);
+      if(this.locked[0] == true || this.locked[1] == true || this.locked[2] == true || this.locked[3] == true || this.locked[4] == true){
+        this.hasLockedColor = true
+      }else{
+        this.hasLockedColor = false
+      }
+
+      console.log(this.hasLockedColor);
+
+    },
+    copy(i) {
+      console.log('copy', i, this.currentColors[i]);
     },
     invertBackground() {
       let textColor = this.textColor, backgroundColor = this.backgroundColor
@@ -738,9 +701,12 @@ export default {
       }
     },
     async getPalettes(offset = 0) {
+
       let colors = []
+      let request = `/api/palettes/new?orderCol=score&sortBy=desc&numResults=100&resultOffset=${offset}&format=json`
+      this.maxRandom = 100
       try {
-        colors = await this.$axios.$get(`/api/palettes/new?orderCol=score&sortBy=desc&numResults=100&resultOffset=${offset}&format=json`)
+        colors = await this.$axios.$get(request)
       } catch (e) {
         console.log(e);
         return colors
@@ -748,22 +714,76 @@ export default {
         return colors
       }
     },
+    async getPalettesWithHex() {
+      let request, colors
+      // get hsl from every hex locked (currentColors)
+
+      let hexs = ''
+      for (var i = 0; i < this.locked.length; i++) {
+        if(this.locked[i] == true){
+          hexs = hexs + this.currentColors[i].substring(1) + ','
+        }
+      }
+      hexs = hexs.slice(0,-1)
+      request = `/api/palettes?orderCol=score&hex=${hexs}&sortBy=desc&numResults=100&format=json`
+
+      try {
+        colors = await this.$axios.$get(request)
+      } catch (e) {
+        console.log(e);
+        return colors
+      } finally {
+        this.maxRandom = colors.length - 1
+        return colors
+      }
+    },
     async chooseColors() {
       let colors
-      if(this.current == 0 ) {
-        colors = await this.getPalettes()
-      }else if(this.current == 100) {
-        this.offset = this.offset + 100;
-        colors = await this.getPalettes(this.offset)
+
+      if(this.hasLockedColor == true){
+        colors = await this.getPalettesWithHex()
         this.current = 0
+        this.offset = 0
       }else{
-        colors = this.apiColors
+        if(this.current == 0 ) {
+          colors = await this.getPalettes()
+        }else if(this.current == this.maxRandom) {
+          this.offset = this.offset + 100;
+          colors = await this.getPalettes(this.offset)
+          this.current = 0
+        }else{
+          colors = this.apiColors
+        }
       }
 
-      let random = randomIntFromInterval(0, 100)
+      let random = randomIntFromInterval(0, this.maxRandom)
       this.apiColors = colors
 
-      this.currentColors = colors[random].colors
+      let newColors = colors[random].colors
+
+      // s'il y a des couleurs locked, on les garde
+      if(this.hasLockedColor == true){
+        for (var i = 0; i < this.locked.length; i++) {
+          if(this.locked[i] == true){
+            newColors.splice(newColors.indexOf(this.currentColors[i].substring(1).toUpperCase().toString()), 1)
+          }
+        }
+        for (var i = 0; i < this.locked.length; i++) {
+          if(this.locked[i] == false){
+            // if(newColors[0].length == 6){
+            // voir si du hsl apparait
+            if(newColors.length != 0){
+              this.currentColors[i] = '#' + newColors[0]
+              newColors.shift()
+            }else{
+              this.currentColors[i] = '#FFFFFF'
+            }
+          }
+        }
+      }else{
+        this.currentColors = colors[random].colors
+      }
+
 
       if(this.currentColors[0].length == 6){
         this.currentColors[0] = '#' + this.currentColors[0]
@@ -850,6 +870,32 @@ export default {
         return hex.length === 1 ? '0' + hex : hex;
       };
       return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    },
+    hexToHSL(hex) {
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        r = parseInt(result[1], 16);
+        g = parseInt(result[2], 16);
+        b = parseInt(result[3], 16);
+        r /= 255, g /= 255, b /= 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, l = (max + min) / 2;
+        if(max == min){
+          h = s = 0; // achromatic
+        }else{
+          var d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          switch(max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+          }
+          h /= 6;
+        }
+      var HSL = new Object();
+      HSL['h']=h;
+      HSL['s']=s;
+      HSL['l']=l;
+      return HSL;
     }
   }
 }
@@ -886,5 +932,16 @@ export default {
 }
 .text {
   color: var(--text-color);
+}
+.options {
+  width: 100%;
+  opacity: 0;
+  transition: all .3s ease-in-out;
+}
+.color:hover .options{
+  display: block;
+  height: 2rem;
+  opacity: 1;
+  top: -20px;
 }
 </style>
