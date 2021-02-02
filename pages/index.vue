@@ -7,15 +7,7 @@
         <draggable @change="changeColors" v-model="currentColors" group="people" @start="drag=true" @end="drag=false">
           <div class="color relative" v-for="(element,i) in currentColors" :key="i">
             <div class="absolute w-20 h-2O z-10 p-4" v-if="locked[i]">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" v-if="locked[i]" class="opacity-50">
-                <defs>
-                  <style>.a{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;}</style>
-                </defs>
-                <circle class="a" cx="12" cy="16" r="7.5"></circle>
-                <path class="a" d="M17.5,10.907V6a5.5,5.5,0,0,0-11,0v4.907"></path>
-                <circle class="a" cx="12" cy="16" r="1"></circle>
-                <line class="a" x1="12" y1="17" x2="12" y2="20"></line>
-              </svg>
+              <div v-html="unlockedSVG" />
             </div>
             <verte :showHistory="false" v-model="currentColors[i]" model="hex" picker="square" :style="getColorsBG(i)" class="bg rounded-lg w-full h-20 mb-2"/>
             <div class="options bg-white h-8 absolute top-0 rounded-lg p-2">
@@ -525,6 +517,9 @@ import colorContrast from 'color-contrast'
 import draggable from 'vuedraggable'
 import cyanea from 'cyanea'
 
+// SVGS
+import unlockedSVG from "~/assets/svgs/unlocked.svg?raw";
+
 function randomIntFromInterval(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -559,6 +554,7 @@ export default {
       offset: 0,
       illustration: SVGS[0],
       maxRandom: 100,
+      unlockedSVG,
     }
   },
   components: {
